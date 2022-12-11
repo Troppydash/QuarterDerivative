@@ -1,0 +1,6 @@
+[submodule "theory/neuralnetwork"]
+	path = theory/neuralnetwork
+	url = https://github.com/Troppydash/ffnetwork.git
+[submodule "qd-symbdiff"]
+	path = qd-symbdiff
+	url = https://github.com/Troppydash/SymbDiff.git

@@ -1,0 +1,6 @@
+# root gitignore
+__pycache__
+.idea
+.ipynb_checkpoints
+*.png
+venv
