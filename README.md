@@ -6,7 +6,7 @@ Feel free to download and run the files if you are interested.
 
 ### Structure
 The project structure is pretty messy at the moment:
-- `experiements` contains testing code that confirms a theory
+- `experiments` contains testing code that confirms a theory
 - `leetcode` are my leetcode solutions
 - `qd-symbdiff` is a wacky symbolic differentiation library
 - `studies` contains the LaTeX explainations of some algorithms
