@@ -1,0 +1,30 @@
+\documentclass[]{article}
+\usepackage{geometry}
+
+\begin{document}
+	
+\section{Graph Theory}
+A graph is a finite set of vertices (nodes) and a set of edges connecting the vertices. Graphs can represent sets of objects with related to each other.
+
+\begin{itemize}
+	\item Two vertices are adjacent if there is an edge between them.
+	\item Order is the number of vertices in the graph
+	\item Size is the number of edges in the graph
+	\item Vertex degree is the number of edges connected to the vertex
+	\item Isolated vertex refers to a vertex with degree zero
+	\item Self loop is an edge from a vertex to itself
+	\item A directed graph has all the edges having a direction (start vertex to end vertex)
+	\item Undirected graphs have edges that are unidirectional (in both directions)
+	\item Weighted graphs have edges with weight values (a number of some sort)
+	\item Unweighted graphs have edges with no weight values (implicit 1 valued)
+\end{itemize}
+
+\subsection{Breadth first search}
+A graph traversing (searching) algorithm, BFS starts at a vertex, explores all its neighbours at a given depth (vertices depth edges away), then increment the depth and explores further.
+
+As graphs can contain cycles, we have to keep track of the visited vertices
+
+Used to find the shortest paths in a graph, find the minimum spanning tree, build indices of web pages by search engine crawlers, search on social networks, and to find available nodes in p2p networks.
+
+
+\end{document}

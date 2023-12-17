@@ -1,0 +1,164 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{amssymb}
+
+\usepackage{bm}
+
+\DeclareMathOperator{\var}{\operatorname{Var}}
+\DeclareMathOperator{\cov}{\operatorname{Cov}}
+\DeclareMathOperator{\uncertabs}{\Delta}
+\DeclareMathOperator{\uncertrel}{\%}
+\DeclareMathOperator{\ex}{\operatorname{E}}
+
+\newcommand{\pde}[2]{\frac{\partial {#1}}{\partial {#2}} }
+\newcommand{\lst}[1]{({#1}_1, {#1}_2, \dots, {#1}_N)}
+
+\begin{document}
+
+\section{Definitions}
+For a random variable $X$, define the absolute and relative uncertainty to be its standard deviations and relative standard deviations
+\begin{align*}
+    \uncertabs X &= \sqrt{\var(X)}\\
+    \uncertrel X &= \left| \frac{\uncertabs X}{X} \right| = \left|\frac{\sqrt{\var(X)}}{X} \right|
+\end{align*}
+these values are fixed for a given $X$ with some distribution.
+
+The realizations of these variables based on some sample (where the variance $\var(X)$ or value $X$ are sample values $x$ and sample standard deviations $s_X$) are thus
+\begin{align*}
+    \uncertabs x &= \sqrt{s_X}\\
+    \uncertrel x &= \left|  \frac{\sqrt{s_X}}{x} \right|
+\end{align*}
+these values are random depending on the samples (a sampling distribution), with hopes that their expected values match the true uncertainties:
+\begin{align*}
+    \ex(\uncertabs x) &= \uncertabs X\\
+    \ex(\uncertrel x) &= \uncertrel X
+\end{align*}
+
+Some identities that are relevant for uncertainties are
+\begin{align*}
+    \var X &= (\uncertabs X)^2\\
+    &= X^2 (\uncertrel X)^2\\
+    \var (aX + bY + c) &= |a|^2 \var(X) + |b|^2 \var(Y) \qquad \forall a,b,c\in \mathbb{R}
+\end{align*}
+for random variables $X$ and $Y$ that are independent\footnote{Implying that $\cov(X,Y)=r \sqrt{\var(X)\var(Y)} = 0$, where $r$ is the correlation coefficient}.
+
+\newpage
+
+\section{IB Formulas}
+For functions of kind
+\[
+    f(X, Y) = X + Y
+\]
+we have that
+\[
+    \uncertabs f = \uncertabs X + \uncertabs Y
+\]
+
+For functions of kind
+\[
+    f(X, Y) = XY
+\]
+we have that
+\[
+    \uncertrel f = \uncertrel X + \uncertrel Y
+\]
+
+For functions of kind
+\[
+    f(X) = X^a \qquad \forall a \in \mathbb{R}
+\]
+we have that
+\[
+    \uncertrel f = |n| (\uncertrel X)
+\]
+
+\newpage
+\section{First Order Methods}
+For formulas, I'll write the first expression in vector notation, and the second in the expanded notation. The derivations are done in vectorized notations only.
+
+For a general function
+\[
+    Y = f(\bm{X}) = f(X_1, X_2, \dots, X_N)
+\]
+consider the first-order taylor series expansion at $\bm{x} = (x_1, x_2, \dots, x_N)$, the realizations/measurements of the random variables:
+\begin{align*}
+    Y &\approx f(\bm{x}) + \sum_i^N (\bm{X}_i - \bm{x}_i) \frac{\partial f}{\partial \bm{X}_i} (\bm{x}) \\
+    &\approx f(x_1, x_2, \dots, x_N) + \sum_{i=1}^N (X_i - x_i)\frac{\partial f}{\partial X_i} (x_1, x_2, \dots, x_N)
+\end{align*}
+
+Note that the value $\bm{x} = (x_1, x_2, \dots, x_N)$ are fixed par our experimental measurement, while $\bm{X} = (X_1, X_2, \dots, X_N)$ is a random variable with some distribution.
+
+Taking variance on both sides, we have that
+\begin{align*}
+    \var(Y) &\approx \var \left(f(\bm{x}) + \sum_i^N (\bm{X}_i - \bm{x}_i) \frac{\partial f}{\partial \bm{X}_i} (\bm{x})\right)\\
+    &\approx \sum_i^N \var \left((\bm{X}_i - \bm{x}_i) \frac{\partial f}{\partial \bm{X}_i} (\bm{x})
+    \right)\\
+    &\approx \sum_i^N \var (\bm{X}_i - \bm{x}_i) \left| \frac{\partial f}{\partial \bm{X}_i} (\bm{x})\right|^2\\
+    &\approx \sum_i^N \var (\bm{X}_i) \left| \frac{\partial f}{\partial \bm{X}_i} (\bm{x})\right|^2\\
+    (\uncertabs Y)^2 &\approx \sum_i^N (\uncertabs X_i)^2 \left| \frac{\partial f}{\partial \bm{X}_i} (\bm{x})\right|^2
+\end{align*}
+
+So, in general for the realizations on the values $\bm{x} = (x_1, x_2, \dots, x_N)$ and their uncertainties $\uncertabs \bm{x} = (\uncertabs x_1, \uncertabs x_2, \dots, \uncertabs x_N)$, the uncertainty in $y$ is
+\begin{align*}
+    (\uncertabs y)^2 &\approx \sum_i^N (\uncertabs \bm{x}_i)^2 \left| \frac{\partial f}{\partial \bm{X}_i} (\bm{x})\right|^2\\
+    &\approx \sum_{i=1}^N (\uncertabs x_i)^2 \left| \frac{\partial f}{\partial X_i} (x_1, x_2, \dots, x_N)\right|^2
+\end{align*}
+
+We'll often use the realizations represented in lower-cased letters like $x$ and $\uncertabs x$, in place of the true random variables like $X$ and $\uncertabs X$ for the formulas.
+
+\subsection{First-order Propagation Formulas}
+The basic addition formula has
+\[
+    f(x, y) = x + y
+\]
+with
+\[
+    \pde{f}{x} = \pde{f}{y} = 1
+\]
+
+The uncertainty in $f$ is therefore
+\[
+    (\uncertabs f)^2 = (\uncertabs x)^2 + (\uncertabs y)^2
+\]
+of which resembles the IB formulas when $\uncertabs y \gg \uncertabs x$.
+
+It may be interesting to model the residuals between the IB and first-order formulas by parameterizing $\uncertabs x$ on the line
+\[
+    \uncertabs x + \uncertabs y = r
+\]
+for a fixed number $r$.
+
+\subsection{Limitations and Extensions}
+The first order equations are limited in accuracy as the uncertainties grow larger. We can derive the second-order propagations with a bit of help by finding the distribution of $\bm{X}_i^2$ and assuming that they are all normally distributed.
+
+\newpage
+\section{Probability Methods}
+
+For the probability method, we assume that the measurements are normally distributed. The propagation needs only to test the distribution of the function after the transformation.
+
+We assume that all measurements $\bm{X}= (X_1, X_2, \dots, X_N)$ are normally distributed
+\[
+    \bm{X}_i \sim N(\bm{x}_i, \uncertabs \bm{x}_i )
+\]
+Notice that the uncertainties are the standard deviations, and observations are the means.
+
+This method allows an arbitrary distribution of the measurement variables while ignoring all covariances in-play.
+
+\subsection{Monte-Carlo Approach}
+For a transformation
+\[
+    f(\bm{X}) = f \lst{X}
+\]
+with realizations $\bm{x} = \lst{\bm{x}}$ and $\uncertabs \bm{x} = \lst{\uncertabs \bm{x}}$.
+
+Pick some random values from the normal distribution, then compute the sample variance of the transformed values.
+
+\subsection{Analytical Approach}
+This approach systematically computes the pdf of the transformation by use of analytical methods like cdf transformations, convolutions, etc.
+
+
+
+\end{document}
