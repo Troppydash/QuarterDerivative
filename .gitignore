@@ -5,3 +5,31 @@ __pycache__
 *.png
 venv
 .vscode
+
+# latex compile related files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.log
+*.run.xml
+*.synctex.gz
+*.out
+*.fls
+*.fdb_latexmk
+*.toc
+*.md5
+*.dpth
+*.auxlock
+
+# for texcount.pl
+*.pl
+
+
+# intellj
+.idea/
+cmake-build-debug/
+cmake-build-release/
+
+# minitab
+*.mpx.bak
