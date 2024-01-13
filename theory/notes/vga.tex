@@ -1,0 +1,176 @@
+\documentclass{article}
+
+
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{physics}
+\usepackage{float}
+
+
+\title{Vector-Space Geometric Algebra}
+\author{Me}
+\date{}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{defi}{Definition}[section]
+
+\newcommand{\I}{{i\mkern1mu}}
+
+\begin{document}
+
+
+\maketitle
+\newpage
+
+
+\section{Basis and Operations}
+The algebra focuses on the operations and representations of sets of extended vector-like objects. While it applies to a generalized vector space, we'll instead focus on real vectors in the form of
+\[
+    \vb{v} \in \mathbb{R}^n, n \in \mathbb{N}
+\]
+particular in the 3D case where $n = 3$.
+
+\subsection{Extend Vectors}
+We first define the bivectors (in 3D) as so
+\begin{defi}[Bivectors]
+    Consider the orthonormal real basis vectors
+    \[
+    \{\vb x, \vb y, \vb z\} \subseteq \mathbb{R}^3
+    \]
+
+    Let the basis bivectors be
+    \[
+        \{\vb x \vb y, \vb y \vb z, \vb z \vb x\}
+    \]
+    and a decomposed bivector be
+    \[
+        \vb v = v_{xy} \vb{xy} + v_{yz} \vb{yz} + v_{zx} \vb{zx}
+    \]
+\end{defi}
+Intuitively, let the bivector be any plane (in 3D), with each basis bivector component dictating the signed area of the plane projected onto the basis planes (the xy-yz-zx planes).
+
+Like vectors, two bivectors are equivalent if they have the same components. This implies that a bivector is invariant under translation, as well as shape-shifting that preserves areas.
+
+Therefore, we can visually represent the basis bivectors as a square of sides 1 originated at $\vb 0$ in the 3 basis planes.
+
+Similarly, a trivector (and beyond) can be defined the same way
+\begin{defi}[Trivector]
+    Under the real orthonormal basis vectors $\{\vb x, \vb y, \vb z\}$, define the basis trivector as
+    \[
+        \{\vb {xyz}\}
+    \]
+
+    And a decomposed trivector be
+    \[
+        \vb v = v_{xyz} \vb {xyz}
+    \]
+\end{defi}
+
+A trivector can be similarly imaged as a volume, with its components be the volume's signed projection onto the $xyz$ volume. Like bivectors, a trivector is invariant under translations, and warpings if it preserves the volume.
+
+The basis trivector is a cube of sides 1 centered at $\vb 0$.
+
+Common names of bivectors and trivectors under regular vectors are
+\begin{figure}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        VGA Name & Linear Algebra Name \\
+        \hline
+        Bivectors & Pseudo-Vectors \\
+        \hline
+        Trivectors & Pseudo-Scalars \\
+        \hline
+        $\{1, \vb{xy}, \vb{yz}, \vb{zx}\}$ & Quaternions\\
+        \hline
+        $\{1, \vb{xy}\}$ & Complex Numbers\\
+        \hline
+    \end{tabular}
+    \caption{VGA Names}
+\end{figure}
+
+\subsection{Operations}
+The main axiom underlying the definitions of VGA vectors and operations is
+\[
+    \vb v^2 = \norm{\vb v}^2
+\]
+where, of course, the norm of a vector (or bivector) is often defined by the Euclidean distance --- the square root of the sum of its squared components.
+
+\begin{defi}[Dot product]
+    Let the dot product be the regular inner product in real number vector spaces
+    \[
+        \vb a \cdot \vb b = \sum_i a_i b_i
+    \]
+
+    The dot product measures the similarity in angles between the two vectors.
+\end{defi}
+
+\begin{defi}[Geometric Product]
+    Let the geometric product be the naive expansion of the vector multiplication in component notation. For the 2D case under the orthonormal basis $\{1, \vb x, \vb y, \vb {xy}\}$, it is
+    \begin{align*}
+        \vb a \vb b &= (a_x \vb x + a_y \vb y) (b_x \vb x + b_y \vb y)\\
+        &= a_x b_x + a_y b_y + (a_x b_y - b_x a_y) \vb{xy}
+    \end{align*}
+
+    Notice that the geometric product of two vectors is a scalar plus bivector entity.
+\end{defi}
+
+Notice some identities of the geometric product
+\begin{itemize}
+    \item $\vb x \vb x = 1$
+    \item $\vb x \vb y = \vb {xy}$
+    \item $\vb x \vb y = -\vb y \vb x$
+    \item $(c \vb a) \vb b = c \vb a \vb b$
+\end{itemize}
+
+
+\begin{defi}[Wedge Product]
+    Let the wedge product be the bivector component under a geometric product, namely define
+    \[
+        \vb a \land \vb b = \vb a \vb b - \vb a \cdot \vb b
+    \]
+
+    The wedge product takes two vectors and produces a bivector interpreted as the oriented area formed by the parallelogram between the two vectors. The norm of that bivector equals the absolute area of the parallelogram.
+\end{defi}
+
+Some identities of the wedge product include
+\begin{itemize}
+    \item $\vb x \land \vb x = \vb 0$
+    \item $\vb x \land \vb y = \vb x \vb y$
+    \item $\vb x \land \vb y = -\vb y \land \vb x$
+    \item $(c \vb a) \land \vb y = c (\vb a \land \vb b)$
+\end{itemize}
+
+We can thus define the geometric product by the dot and wedge product
+\[
+    \vb {ab} = \vb a \cdot \vb b + \vb a \land \vb b
+\]
+
+\subsection{Complex Analogy}
+To showcase the VGA vector-like elements and their operations, we'll use an analogy with the complex numbers.
+
+There is an isomorphism between the complex number space $\mathbb{C}$ and the 2D rotor space of basis $\{1, \vb{xy}\}$. Namely due to that
+\[
+    \vb{xy}^2 = \vb{xyxy} = -\vb{xxyy} = -1 = \I^2
+\]
+
+Consider the four arithmetic operations on both spaces (where the vector multiplication is the geometric product)
+\begin{align*}
+    (a+b \I) + (c + d \I) &= a+c + (b+d) \I\\
+    (a+b \vb{xy}) + (c + d\vb{xy}) &= a+c + (b+d) \vb{xy}\\
+    (a+b\I)(c+d \I) &= ac - bd + (ad + bc) \I\\
+    (a+b\vb{xy})(c+d\vb{xy}) &= ac - bd + (ad+bc) \vb{xy}
+\end{align*}
+and notice that they are identical.
+
+\section{Geometric Interpretation}
+The various fundamental multivectors and operations can be constructed to structure a few geometric operations. Namely, we can express the actions of projection and rejection, reflection, rotation, and so on in the language of geometric algebra.
+
+\subsection{Projection and Rejection}
+
+
+
+\end{document}

@@ -372,8 +372,221 @@ Continuous functions in the real numbers are always measurable.
 
 \newpage
 \section{Lebesgue Integral}
+We will first define the Lebesgue integral on step/simple functions.
 
+Consider a measure space consist of $(X, \mathcal A, \mu)$, where $X$ is a set, $\mathcal A$ is a $\sigma$-algebra on $X$, and $\mu \colon \mathcal A \to [0, \infty]$ is a measure. We aim to define a notion of integration for a measurable map $f \colon X \to \mathbb{R}$ with respect to $\mathcal A$ and $B(\mathbb{R})$.
 
+\begin{defi}[Characteristic Function Integrals]
+    For any characteristic function $\chi_A \colon X \to \mathbb{R}$ where $A \in \mathcal A$ is a measurable set, we define its integral to be the measure of the set
+    \[
+        I(\chi_A) = \mu(A)
+    \]
+\end{defi}
 
+\begin{defi}[Simple Functions]
+    Simple functions (step functions) are linear combinations of characteristics functions. They are defined by
+    \[
+        f(x) = \sum_{i=1}^{n} c_i \chi_{A_i}(x)
+    \]
+    for some $n \in \mathbb{N}$, $c_i \in \mathbb{R}$, and measurable sets $A_i \in \mathcal A$.
+
+    A function is simple if we can find measurable sets and constants such that their linear combination with the characteristic functions forms the function.
+\end{defi}
+
+Because scalar multiples of measurable maps are measurable, and sums of measurable maps are measurable, simple functions are also measurable.
+
+Notice that while the linear combination representation of simple functions are not unique, the resultant functions are. We should choose a suitable representation of simple functions for the task.
+
+\begin{defi}[Set of positive simple functions]
+    Define the set of positive simple functions $S^+$ by the set of simple functions with positive (or zero) coefficients
+    \[
+    S^+ = \{f \colon X \to \mathbb{R} \colon \text{$f$ is simple}, f \geq 0\}
+    \]
+
+    This resembles a half vector space where addition and positive scalar multiplication are closed.
+
+\end{defi}
+
+\begin{theorem}[Simple Function Integrals]
+    For a simple function $f \in S^+$, choose any representation of the function
+    \[
+        f(x) = \sum_{i=1}^n c_i \chi_{A_i}(x), c_i \geq 0
+    \]
+
+    The Lebesgue integral on the simple function $f$ with respect to the measure $\mu$ is given by the linear combination
+    \[
+        I(f) = \sum_{i=1}^n c_i \mu(A_i) \in [0, \infty]
+    \]
+
+    The Lebesgue Integral is well-defined, where the value of the integral does not depend on the representation of the simple function.
+\end{theorem}
+
+The alternate syntax of the Lebesgue Integral is
+\[
+    \int_X f(x) d\mu = \int_X f d\mu = I(f) = \sum c_i \mu(A_i)
+\]
+
+The properties of the Lebesgue integral are
+\begin{enumerate}
+    \item That it is linear:
+    \[
+    \forall a,b \geq 0, I(af + bg) = aI(f) + bI(g)
+    \] for positive simple functions $f, g \in S^+$.
+    \item Monotonicity, where for positive simple functions $f, g \in S^+$
+    \[
+        \forall x \in X, f(x) \leq g(x) \implies I(f) \leq I(g)
+    \]
+\end{enumerate}
+Both property are trivially verified by the definition of Lebesgue Integral on simple functions.
+
+To approximate a generic measurable positive function $f \colon X \to [0, \infty)$, we partition the real axis into finite sized heights $\{c_1, c_2, \dots\}$, then define the simple function $h \in S^+$ by
+\[
+    h(x) = \sum_{i=1}^{\infty} c_i \chi_{A_i}(x)
+\]
+where $A_i$ is the pre-image of the function $f$ within each height gap
+\[
+    A_i = f^{-1}([c_i, c_{i+1}))
+\]
+
+Notably, because we use the lower-bound of the discrete heights in our simple function for every pre-image domain, the simple function $h \leq f$. In theory, we can refine the heights so that our approximate simple function approaches the generic measurable positive function.
+
+\begin{defi}[Supremum and Infimum]
+    For a set $X \subseteq U$, define the supremum of the set to be the lowest upper-bound. That is
+    \[
+    \sup X = \min \{M \in U \colon \forall x \in X, x \leq M\}
+    \]
+
+    Similarly, the infimum of the set is the highest lower-bound,
+    \[
+    \inf X = \max \{M \in U \colon \forall x \in X, x \geq M\}
+    \]
+
+    On the real numbers with standard orderings, the supremum and infimum of a set always exists.
+\end{defi}
+
+\begin{defi}[Lebesgue Integral]
+    For a positive measurable map $f \colon X \to \mathbb{R}, f \geq 0$ in a measure space $(X, \mathcal A, \mu)$ and $(\mathbb{R}, B(\mathbb{R}), \lambda)$, define the Lebesgue Integral on $f$ with respect to the measure $\mu$ to be
+    \[
+        \int_X f d\mu = I(f) = \sup \{ I(h) \colon h \in S^+, h \leq f\} \in [0, \infty]
+    \]
+
+    Namely, the integral is the smallest upper-bound of all integrals of simple functions smaller than the measurable map.
+\end{defi}
+
+A mapping $f$ is called $\mu$-integrable if it is finite $\int_X f d\mu < \infty$.
+
+\begin{defi}[Almost Everywhere]
+    The statement $p(x)$ almost everywhere where $p(x)$ is a predicate on a measure space $(X, \mathcal A, \mu)$ implies that the measure of the subset on $X$ where the predicate don't hold is zero:
+    \[
+        \mu(\{x \in X \colon \lnot p(x)\}) = 0
+    \]
+
+    If $p(x)$ holds for all $x \in X$, then it must be $p(x)$ almost everywhere (but not the contrary).
+\end{defi}
+
+For two positive measurable maps $f, g \colon X \to [0, \infty)$, properties of the Lebesgue Integral include
+\begin{enumerate}
+    \item The equality,
+    \[
+    (f = g)\, \text{with $\mu$ almost everywhere} \implies \int_X f d\mu = \int_X g d\mu
+    \]
+
+    \item Monotonicity,
+    \[
+        f \leq g \, \text{with $\mu$ almost everywhere} \implies \int_X f d\mu \leq \int_X g d\mu
+    \]
+
+    \item The identity
+    \[
+        f = 0 \, \text{with $\mu$ almost everywhere} \iff \int_X f d\mu = 0
+    \]
+\end{enumerate}
+
+\begin{lemma}[Measure Equivalent Simple functions]
+    For any simple function $h \in S^+$ on a measure space $(X, \mathcal A, \mu)$, consider the set of functions $h_a(x)$ defined by
+    \[
+        h_a(x) = \begin{cases}
+            h(x) & x \in \tilde X\\
+            a & x \in \tilde X^c
+        \end{cases}
+    \]
+    where $a \in \mathbb{R}^+$ is a positive real number and $\tilde X \in \mathcal A$ is a measurable set with its complement having zero measure $\mu(\tilde X^c) = 0$.
+
+    Then
+    \[
+        \int_X h d\mu = \int_X h_a d\mu
+    \]
+\end{lemma}
+\begin{proof}
+    First notice that all simple functions have finite domains, hence have a canonical linear representation
+    \begin{align*}
+        h(x) &= \sum_{c \in h(X)} c \chi_{\{x \in X \colon h(x) = c\})}(x)
+    \end{align*}
+
+    Therefore the canonical representation of $h_a(x)$ is
+    \begin{align*}
+        h_a(x) &= a \chi_{\{x \in X \colon h_a(x) = a\}}(x) + \sum_{c \in h_a(X) \setminus \{a\}} c \chi_{\{x \in X \colon h_a(x) = c\}}(x)\\
+        &= a \chi_{\tilde X^c}(x) + a \chi_{\{x \in \tilde X \colon h_a(x) = a\}}(x) + \sum_{c \in h(\tilde X) \setminus \{a\}} c \chi_{\{x \in \tilde X \colon h_a(x) = c\}}(x)\\
+        &= a \chi_{\tilde X^c}(x) + \sum_{c \in h(\tilde X)} c \chi_{\{x \in \tilde X \colon h_a(x) = c\}}(x)\\
+        &= a \chi_{\tilde X^c}(x) + \sum_{c \in h(\tilde X)} c \chi_{\{x \in \tilde X \colon h(x) = c\}}(x)\\
+        &= a \chi_{\tilde X^c}(x) + \sum_{c \in h(X)} c \chi_{\{x \in \tilde X \colon h(x) = c\}}(x)
+    \end{align*}
+    the last simplification is possible for if $c \in h(\tilde X^c)$ and $c \not\in h(\tilde X)$, the set $\{x \in \tilde X \colon h(x) = c\} = \emptyset$.
+
+    Hence,
+    \begin{align*}
+        \int_X h d\mu &= \sum_{c \in h(X)} c \mu(\{x \in X \colon h(x) = c\})\\
+        &= \sum_{c \in h(X)} c \left(\mu(\{x \in \tilde X \colon h(x) = c\}) + \mu(\{x \in \tilde X^c \colon h(x) = c\}) \right)\\
+        &= a \mu(\tilde X^c) + \sum_{c \in h(X)} c \mu(\{x \in \tilde X \colon h(x) = c\})\\
+        &= \int_X h_a d\mu
+    \end{align*}
+    for both
+    \begin{align*}
+        0 = \mu(\tilde X^c) = a \mu(\tilde X^c) = \mu(\{x \in \tilde X^c \colon h(x) = c\}) = 0
+    \end{align*}
+\end{proof}
+
+To prove the first (and second) monotonicity properties, let
+\[
+    \tilde X = \{x \in X \colon f(x) \leq g(x)\} \implies \mu(\tilde X^c) = 0
+\]
+then we have
+\begin{align*}
+    \int_X f d\mu &= \sup \{I(h) \colon h \in S^+, \forall x \in X, h(x) \leq f(x)\}\\
+    &= \sup \{I(h_a) \colon h \in S^+, \forall x \in X, h(x) \leq f(x)\}\\
+    &= \sup \{I(h_a) \colon h \in S^+, \forall x \in \tilde X, h(x) \leq f(x)\}\\
+    &\leq \sup \{I(h_a) \colon h \in S^+, \forall x \in \tilde X, h(x) \leq g(x)\}\\
+    &= \sup \{I(h) \colon h \in S^+, \forall x \in X, h(x) \leq g(x)\} \quad (\text{mirroring the first 3 statements})\\
+    &= \int_X g d\mu
+\end{align*}
+
+The third property in the forward direction is obvious from $(1)$, the reverse is harder.
+
+\newpage
+\section{Monotone Convergence Theorem}
+The monotone convergence theorem describes how the Lebesgue integral interacts with infinite series. That if a series of increasing functions converges to another function, and the limit of the increasing functions' Lebesgue integrals also converges to the Lebesgue integral of the other function.
+
+\begin{theorem}[Monotone Convergence Theorem]
+    For a measure space $(X, \mathcal A, \mu)$ and a countable series of measurable functions
+    \[
+        n \in \mathbb{N}, f_n(x) \colon X \to [0, \infty)
+    \]
+    where
+    \[
+        f_1 \leq f_2 \leq f_3 \leq \dots \quad \text{$\mu$ almost everywhere}
+    \]
+    and there is a limit function $f(x) \colon X \to [0, \infty)$ where
+    \[
+        \lim_{n \to \infty} f_n(x) = f(x) \quad \text{$\mu$ almost everywhere}
+    \]
+
+    Then the function $f(x)$ is measurable and
+    \[
+        \lim_{n\to \infty} \int_X f_n d\mu = \int_X f d\mu
+    \]
+\end{theorem}
+\begin{proof}
+
+\end{proof}
 
 \end{document}

@@ -1,6 +1,6 @@
 \documentclass[11pt]{article}
 
-\usepackage{amsmath}
+\usepackage{mathtools}
 \usepackage{float}
 \usepackage{parskip}
 \usepackage{amsfonts}
@@ -393,19 +393,19 @@ A random walk is depicted as a time series where the successive values are depen
 We are often interested in
 \begin{itemize}
     \item The expected value of the random walk
-    \item The long term convergence of the random walk
     \item The variance of the walk
+    \item The long term distribution of the random walk
     \item The distribution of time in reaching a value
 \end{itemize}
 
 \subsection{Simple Random Walk}
 Consider the simple additive random walk
 \[
-    f(x) = x + K
+    f(x) = x + K, K \sim B(p, a, b)
 \]
-where $K \sim B(p, a, b)$ is a Bernoulli random variable with a $p$ probability of taking $a$, and a $1-p$ probability of taking $b$.
+where $K$ is a Bernoulli random variable with a $p$ probability of taking $a$, and a $1-p$ probability of taking $b$. This walk aims to model additive processes (gambling winnings) where each action is a discrete Bernoulli event.
 
-Because $K$ is simply a rescaled Bernoulli random variable,
+For $K$ is simply a rescaled Bernoulli random variable,
 \[
     K = (b-a) X + a
 \]
@@ -418,20 +418,62 @@ where $X \sim B(p)$. The mean and variance of $K$ is
     &= (b-a)^2 p(1-p)
 \end{align*}
 
-Notice that the random walk at time $t$ is
+Therefore, because that the random walk at time $t$ is
 \[
     x_t = x_0 + t K
 \]
-hence
+the expected value and variance of the walk at time $t$ is
 \begin{align*}
     E[x_t] &= x_0 + t (bp + (1-p)a)\\
     V[x_t] &= t (b-a)^2 p (1-p)
 \end{align*}
 
+% TODO: This random walk distribution (binomial/normal) and distribution of time in reaching a value
+
+\subsection{Returns Random Walk}
+Consider the walk
+\[
+    f(x) = x(1+R), R \sim N(\mu, \sigma)
+\]
+where $R$ is a normally distributed random variable with mean $\mu$ and standard deviation $\sigma$. We need the return mean $\mu$ to be relatively small ($|\mu| \le 0.1$) and close to zero.
+
+To find the distribution of the walk at time $t$, first notice that
+\[
+    x_t = x_0 \prod^t_i (1+R_i)
+\]
+And by taking the natural logarithm on both sides, we get
+\begin{align*}
+    \ln x_t &= \ln \left(x_0 \prod^t_i (1+R_i)\right)\\
+    &= \ln x_0 + \sum_i^t \ln (1+R_i)\\
+    &\approx \ln x_0 + \sum_i^t R_i
+\end{align*}
+Where we've used the assumption that $\ln (1+x) \approx x$ when $x$ is close to zero.
+By the additive laws of normal variables, let $S_t$ be the sum of these returns
+\[
+    S_t = \sum_i^t R_i, \quad S_t \sim N(t\mu, \sqrt{t} \sigma)
+\]
+thus we can see that $x_t$ has a log-normal distribution:
+\begin{align*}
+    \ln x_t &\approx \ln x_0 + S_t\\
+    x_t &\approx x_0 \exp{S_t}
+\end{align*}
+
+The exact distribution pdf of the walk is a scaled lognormal probability density function
+\begin{align*}
+    \exp S_t &\sim \operatorname{Lognormal}(t\mu, \sqrt{t}\sigma)\\
+    f(x \coloneq \exp s_t, \mu, \sigma) &= \frac{1}{x \sigma \sqrt{2\pi}} \exp\left( -\frac{1}{2} \left(\frac{\ln x - \mu}{\sigma} \right)^2 \right)\\
+    f(x_t) &= \frac{1}{x_0} f \left(\frac{x}{x_0}, t\mu, \sqrt{t}\sigma \right)\\
+    &=\frac{1}{x\sigma\sqrt{2t\pi}} \exp\left( -\frac{1}{2} \left(\frac{\ln x - t\mu - \ln x_0}{\sqrt{t}\sigma}\right)^2 \right)
+\end{align*}
+
+The expected value and variance of the walk at time $t$ is
+\begin{align*}
+    \text{Given} \quad R_i &\sim N(\mu, \sigma)\\
+    E[x_t] &= x_0 \exp\left( t \left(\mu + \frac{\sigma^2}{2}\right) \right)\\
+    V[x_t] &= x_0^2 \left( \exp(t\sigma^2) - 1 \right) \left(2t\mu + t\sigma^2\right)
+\end{align*}
 
 
-
-
-
+Realistically, the walk distribution and statistical moments differ to the theoretically derived due to the small return assumption.
 
 \end{document}
