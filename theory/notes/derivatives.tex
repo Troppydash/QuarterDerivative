@@ -1,0 +1,109 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{mathtools}
+\usepackage[margin=0.8in]{geometry}
+\usepackage{parskip}
+\usepackage{amssymb}
+\usepackage{multicol}
+
+
+%\setlength{\columnseprule}{0.5pt}
+
+\title{Derivatives}
+\author{me}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\begin{multicols*}{2}
+
+\section{Notations}
+Here is a brief on option notations used.
+\begin{itemize}
+    \item $C_e$ is the price of a European call option
+    \item $P_e$ is the price of a European put option
+    \item $C_a$ is the price of an American call option
+    \item $P_a$ is the price of an American put option
+    \item $X$ is the option strike price
+    \item $S_0$ is the current underlying stock price
+    \item $T$ is the expiry duration of the option
+    \item $r$ is the risk-free interest rate
+    \item $e$ is Euler's constant
+\end{itemize}
+
+
+
+\section{Lower and Upper Bounds}
+
+\subsection{Upper bounds}
+The upper bound of European call options is the stock price.
+\[
+    C_e \leq S_0
+\]
+To arbitrage when the option is overvalued, write the call option and purchase a stock simultaneously to lock-in the spread premium.
+
+The upper bound of American call options is also the stock price.
+\[
+    C_a \leq S_0
+\]
+
+The upper bound of European put options is the discounted strike price.
+\[
+    P_e \leq X e^{-rT}
+\]
+To arbitrage when the option is overvalued, write the put option to lock-in the spread premium --- for the most you will pay is the strike price at expiration. Measure the spread using the PV price inflow and PV strike expiration outflow.
+
+The upper bound of American put options is the strike price.
+\[
+    P_a \leq X
+\]
+No discounting on the strike price, for American options may be exercised before expiry (right now).
+
+
+\subsection{Lower bounds}
+All options cannot be cheaper than free, for you can simply buy them (get paid) and not exercise for a profit.
+
+The lower bound for European call options is the spread between stock price and discounted strike price
+\[
+    C_e \geq \max(0, S_0 - X e^{-rT})
+\]
+To arbitrage an undervalued option, we can short the stock and purchase the option. At expiry, we will have more than $X$ and can close the position at a maximum cost of $X$, netting profit.
+
+Assuming no stock dividends, the lower bound of American call options is the as its European counterpart.
+\[
+    C_a \geq \max(0, S_0 - Xe^{-rT})
+\]
+This is because an American call option will never be exercised early for positive interest rates, as stock prices on average moves up interest that offsets opportunity costs.
+
+The lower bound for European put options is the spread between the discounted strike price and stock price.
+\[
+    P_e \geq \max(0, Xe^{-rT} - S_0)
+\]
+To arbitrage, long both the option and the stock. The minimum earnings at expiry would be the strike price, which when discounted is greater than the combined stock price and option, netting a profit.
+
+The lower bound for American put option is the spread between the strike and stock price.
+\[
+    P_a \geq \max(0, X - S_0)
+\]
+For American put options can be exercised early, so we don't need to wait and take the opportunity cost of the future strike price, for we are allowed to take the strike price now and make a profit on the spread between the intrinsic value and option price.
+
+To summarize, the simple price bounds for options are
+\begin{alignat*}{3}
+    &\max(0, S_0 - Xe^{-rT}) &&\leq C_e &&\leq S_0\\
+    &\max(0, S_0 - Xe^{-rT}) &&\leq C_a &&\leq S_0\\
+    &\max(0, X e^{-rT} - S_0) &&\leq P_e &&\leq Xe^{-rT}\\
+    &\max(0, X - S_0) &&\leq P_a &&\leq X
+\end{alignat*}
+and we can perform simple arbitrage (or long/short the option) when they trade outside the range.
+
+More often than not however, the option prices will be very far from the bounds due to better pricing models.
+
+\subsection{Put-Call Parity}
+
+
+\end{multicols*}
+
+\end{document}
